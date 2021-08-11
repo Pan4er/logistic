@@ -8,13 +8,16 @@
 <body>
 
 
-    <table class="table">
+
+    <table class="table" id="goodsTab" style="margin-bottom: 50px">
+        <label for="goodsTab"><h1>Все товары</h1></label>
         <thead>
         <tr>
             <th scope="col">id</th>
             <th scope="col">Название</th>
             <th scope="col">Цена</th>
             <th scope="col">Номер склада</th>
+            <th scope="col">Размер товара (м2)</th>
 
         </tr>
         </thead>
@@ -24,9 +27,20 @@
                 <td th:text="${good.Name}"></td>
                 <td th:text="${good.Price}"></td>
                 <td th:text="${good.Store}"></td>
+                <td th:text="${good.Size}"></td>
             </tr>
         </tbody>
     </table>
 
+    <div class="center-block" style="width: 300px; margin: 0 auto; margin-bottom: 50px">
+        <form action="goodsWithStore" method="post">
+            <label for="storeSelect">Поиск по складу</label>
+            <select name="SelectedValue" class="form-select" onchange="" id="storeSelect">
+                <option th:each = "store : ${storesList}" th:value="${store.Id}" th:text="${store.Store_name}"></option>
+            </select>
+            <button style="width: 100%" type="submit" class="btn btn-primary">Найти</button>
+        </form>
+    </div>
+<script></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 </head>
 <body>
     <div style="width: 500px; height: 500px; margin: 0 auto; padding-top: 100px">
-        <form action="addGood" method="post">
+        <form th:action="@{addGood}" th:method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Название товара</label>
                 <input name="goodName" type="text" class="form-control" id="name" aria-describedby="emailHelp">
@@ -17,8 +17,22 @@
                 <input name="goodPrice" type="text" class="form-control" id="price">
             </div>
             <div class="mb-3">
-                <label for="order" class="form-label">Номер склада</label>
-                <input name="goodOrder" type="text" class="form-control" id="order">
+                <label for="size" class="form-label">Размер</label>
+                <input name="goodSize" value="1" type="number" step="0.01" class="form-control" id="size">
+            </div>
+            <div class="mb-3">
+                <label for="storeSelect" class="form-label">Склад</label>
+                <select name="SelectedValue" class="form-select" id="storeSelect">
+                    <option th:each = "store : ${storesList}" th:value="${store.Id}">
+                       <!-- -->
+
+                        <p1 th:text="${store.Store_name}"></p1>
+                        <p1>, Свободное место : </p1>
+                        <p1 th:text="${store.getCurrentFreePlace()}"></p1>
+
+                    </option>
+
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Добавить</button>
         </form>

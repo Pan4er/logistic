@@ -1,5 +1,6 @@
 package com.example.logistic.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "goods")
 @Getter
 @Setter
+@AllArgsConstructor
 public class Good {
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,5 +19,8 @@ public class Good {
     private String name;
     private int price;
     private int store;
+    private double size;
     public Good(){};
+
+
 }

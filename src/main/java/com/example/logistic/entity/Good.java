@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Good {
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int price;

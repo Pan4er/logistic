@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Store {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String store_name;
     private double fullness;

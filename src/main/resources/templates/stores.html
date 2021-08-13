@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+
+
+
+    <div class="card border-primary mb-3" style="width: 500px; margin: 0 auto; top: 30px">
+        <div class="card-header"><h5>Добавить склад</h5></div>
+        <div class="card-body text-primary">
+            <form th:action="@{addNewStore}" th:method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Название склада</label>
+                    <input name="storeName" type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="fulness" class="form-label">Размер склада</label>
+                    <input name="storeFullness" type="number" step="1" class="form-control" id="fulness">
+                </div>
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-primary mb-3" style="width: 500px; margin: 0 auto; top: 30px">
+        <div class="card-header"><h5>Удалить склад</h5></div>
+        <div class="card-body text-primary">
+            <form th:action="@{deleteStore}" th:method="post">
+                <label for="storeToDelete" class="form-label">Удаляемый склад:</label>
+                <select name="storeToDelete" class="form-select" id="storeToDelete">
+                    <option th:each = "store : ${storesList}" th:value="${store.Id}">
+                        <p1 th:text="${store.Store_name}"></p1>
+                        <p1>, Заполненность склада : </p1>
+                        <p1 th:text="${store.Currentf}"></p1>
+                    </option>
+                </select>
+                <label for="storeToReplaceGoods" class="form-label">Склад, в который перемещаются товары:</label>
+                <select name="storeToReplaceGoods" class="form-select" id="storeToReplaceGoods">
+                    <option th:each = "store : ${storesList}" th:value="${store.Id}">
+                        <p1 th:text="${store.Store_name}"></p1>
+                        <p1>, Свободное место : </p1>
+                        <p1 th:text="${store.getCurrentFreePlace()}"></p1>
+                    </option>
+                </select>
+
+                <button style="margin-top: 15px" type="submit" class="btn btn-primary">Удалить</button>
+            </form>
+        </div>
+    </div>
+
+        <div class="container" style="margin: 0 auto; padding-top: 55px">
+            <table class="table table-bordered" >
+                <thead>
+                <tr>
+                    <th scope="col">Название склада</th>
+                    <th scope="col">Вместимость (м2)</th>
+                    <th scope="col">Свободное место (м2)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="store : ${storesList}">
+                    <td>
+                        <form th:action="@{editStoreName}" th:method="post">
+                            <input type="text" name="storeName" th:value="${store.Store_name}">
+                            <input type="hidden" name="storeId" th:value="${store.Id}">
+                            <input type="submit" value="Изменить">
+                        </form>
+                    </td>
+
+                    <td>
+                        <form th:action="@{editStoreFullness}" th:method="post">
+                            <input type="number" step="0.1" name="storeFullness" th:value="${store.Fullness}">
+                            <input type="hidden" name="storeId" th:value="${store.Id}">
+                            <input type="submit" value="Изменить">
+                        </form>
+                    </td>
+
+                    <td th:text="${store.getCurrentFreePlace()}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary"><a href="/" style="color: white; text-decoration: none" >На главную</a></button>
+        </div>
+
+
+</body>
+</html>

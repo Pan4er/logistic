@@ -33,17 +33,6 @@ public class GoodService {
     }
 
 
-    /*public String setNewGood(String name, String price, String order){
-        if (!name.isEmpty() && !price.isEmpty() && !order.isEmpty()){
-            Good newGood = new Good();
-            newGood.setName(name);
-            newGood.setPrice(Integer.parseInt(price));
-            newGood.setStore(Integer.parseInt(order));
-            gr.save(newGood);
-            return "succesPost";
-        }
-        else return "Error";
-    }*/
 
     public String addNewGood(String StoreId, String goodName, double goodSize, String goodPrice, Model model)
     {
@@ -98,13 +87,17 @@ public class GoodService {
     public String renderGoodsSearch(Model model,String keyword) {
         if (keyword != null) {
            List<Good> goods = gr.search(keyword);
+           List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
             model.addAttribute("goods", goods);
+            model.addAttribute("stores", stores);
             model.addAttribute("keyword", keyword);
         }
         else
         {
             List<Good> goods = gr.search("");
+            List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
             model.addAttribute("goods", goods);
+            model.addAttribute("stores", stores);
             model.addAttribute("keyword", "");
         }
         return "searchByName";
@@ -164,25 +157,27 @@ public class GoodService {
 
     }
 
-    public String editGoodStore(String goodStore, String goodId, Model model)
-    {
+    public String editGoodStore(String goodStore, String goodId, Model model) {
 
         Good currentGood = gr.findById(Integer.parseInt(goodId)).get();
-        Store currentStore = storeRepo.findById(Integer.parseInt(goodStore)).get();
 
-        if (currentStore.getCurrentf() + currentGood.getSize() <= currentStore.getFullness())
-        {
-            currentGood.setStore(Integer.parseInt(goodStore));
-            gr.save(currentGood);
-            dbInit.initCurrentFullness();
-            return "searchByName";
+        if (storeRepo.existsById(Integer.parseInt(goodStore))) {
+            Store currentStore = storeRepo.findById(Integer.parseInt(goodStore)).get();
+            if (currentStore.getCurrentf() + currentGood.getSize() <= currentStore.getFullness()) {
+                currentGood.setStore(Integer.parseInt(goodStore));
+                gr.save(currentGood);
+                dbInit.initCurrentFullness();
+                return "searchByName";
+            } else {
+                model.addAttribute("errorText", "Переполнение склада");
+                return "Err";
+            }
         }
         else
         {
-            model.addAttribute("errorText","Переполнение склада");
+            model.addAttribute("errorText","Такого склада нет");
             return "Err";
         }
-
 
     }
 

@@ -15,14 +15,20 @@ import java.util.List;
 public class DbInit {
     @Autowired
     private StoreRepo storeRepo;
-    @Autowired
-    private GoodRepo goodRepo;
+
 
     public void initCurrentFullness(){
         List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
 
         stores.forEach(store -> {
-            store.setCurrentf(this.countGoodsSize(store.getGoods()));
+            if (store.getGoods() != null)
+            {
+                store.setCurrentf(this.countGoodsSize(store.getGoods()));
+            }
+            else
+            {
+                store.setCurrentf(0);
+            }
         });
         storeRepo.saveAll(stores);
 

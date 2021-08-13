@@ -12,7 +12,7 @@
                 border: 1px solid rgba(86,61,124,.2);">
                 <div class="col" style=" border: 1px solid rgba(86,61,124,.2);">Название товара</div>
                 <div class="col" style=" border: 1px solid rgba(86,61,124,.2);">Цена</div>
-                <div class="col" style=" border: 1px solid rgba(86,61,124,.2);">Размер товара (мм2)</div>
+                <div class="col" style=" border: 1px solid rgba(86,61,124,.2);">Размер товара (м2)</div>
             </div>
             <div class="row align-items-center"
                  th:each="good : ${goodsList}"
@@ -22,8 +22,11 @@
                 <div class="col" style=" border: 1px solid rgba(86,61,124,.2);" th:text="${good.Price}"></div>
                 <div class="col" style=" border: 1px solid rgba(86,61,124,.2);" th:text="${good.Size}"></div>
             </div>
-
+            <div style="margin-top: 20px;"><button type="submit" class="btn btn-primary"><a href="/goods" style="color: white; text-decoration: none" >Назад</a></button></div>
+            <div style="margin-top: 20px;"><button type="submit" class="btn btn-primary"><a href="/" style="color: white; text-decoration: none" >На главную</a></button></div>
         </div>
+
+
 </body>
 </html>
 

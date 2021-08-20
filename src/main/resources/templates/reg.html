@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <div th:insert="reusableElems :: links"></div>
+</head>
+<body>
+<div class="container" style="width: 500px">
+  <form th:action="@{reg}" th:method="post">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Логин</label>
+      <input th:name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Логин" required>
+
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Пароль</label>
+      <input th:name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Подтвердите пароль</label>
+      <input th:name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Пароль" required>
+    </div>
+    <div class="container" style="margin-top: 12px" >
+      <div class="row">
+        <div class="col-sm">
+          <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+        </div>
+        <div class="col-6">
+          <a th:href="@{auth}" class="btn btn-primary">Авторизация</a>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

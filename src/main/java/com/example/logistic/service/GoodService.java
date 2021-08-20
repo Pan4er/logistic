@@ -23,11 +23,10 @@ public class GoodService {
     private DbInit dbInit;
 
 
-    public String getAll(Model model)
+    public String getGoods(Model model, String keyword)
     {
         model.addAttribute("goods", ArraysOperations.toList(gr.findAll()));
-        List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
-        model.addAttribute("storesList",stores);
+        checkKeyWord(keyword, model);
         return "goods";
 
     }
@@ -46,13 +45,13 @@ public class GoodService {
             if (goodSize <= 0)
             {
                 model.addAttribute("errorText","размер товара должен быть больше нуля");
-                return "Err";
+                return "err";
             }
 
             if (currentStore.getCurrentf() + goodSize > currentStore.getFullness())
             {
                 model.addAttribute("errorText","На выбранном складе недостаточно места");
-                return "Err";
+                return "err";
             }
             Good newGood = new Good();
             newGood.setName(goodName);
@@ -61,17 +60,34 @@ public class GoodService {
             newGood.setStore(Integer.parseInt(StoreId));
             gr.save(newGood);
             model.addAttribute("success","Товар добавлен");
-            return "succesPost";
+            return "redirect:/addGood";
         }
         else
         {
             model.addAttribute("errorText", "Заполните все поля");
-            return "Err";
+            return "err";
         }
 
     }
 
-
+    public void checkKeyWord(String keyword, Model model)
+    {
+        if (keyword != null) {
+            List<Good> goods = gr.search(keyword);
+            List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
+            model.addAttribute("goods", goods);
+            model.addAttribute("storesList",stores);
+            model.addAttribute("keyword", keyword);
+        }
+        else
+        {
+            List<Good> goods = gr.search("");
+            List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
+            model.addAttribute("goods", goods);
+            model.addAttribute("storesList",stores);
+            model.addAttribute("keyword", "");
+        }
+    }
 
     public void deleteGood(int id)
     {
@@ -85,7 +101,7 @@ public class GoodService {
     }
 
     public String renderGoodsSearch(Model model,String keyword) {
-        if (keyword != null) {
+        /*if (keyword != null) {
            List<Good> goods = gr.search(keyword);
            List<Store> stores = ArraysOperations.toList(storeRepo.findAll());
             model.addAttribute("goods", goods);
@@ -99,7 +115,8 @@ public class GoodService {
             model.addAttribute("goods", goods);
             model.addAttribute("stores", stores);
             model.addAttribute("keyword", "");
-        }
+        }*/
+        checkKeyWord(keyword,model);
         return "searchByName";
     }
 
@@ -125,7 +142,7 @@ public class GoodService {
         if (Double.parseDouble(goodSize) <= 0)
         {
             model.addAttribute("errorText", "Размер товара должен быть больше нуля");
-            return "Err";
+            return "err";
         }
         else
         {
@@ -134,7 +151,7 @@ public class GoodService {
                 good.setSize(Double.parseDouble(goodSize));
                 gr.save(good);
                 dbInit.initCurrentFullness();
-                return "searchByName";
+                return "redirect:/searchByName";
             }
             else
             {
@@ -143,12 +160,12 @@ public class GoodService {
                     good.setSize(Double.parseDouble(goodSize));
                     gr.save(good);
                     dbInit.initCurrentFullness();
-                    return "searchByName";
+                    return "redirect:/searchByName";
                 }
                 else
                 {
                     model.addAttribute("errorText","Невозможно изменить размер(Переполнение склада)");
-                    return "Err";
+                    return "err";
                 }
             }
         }
@@ -167,16 +184,16 @@ public class GoodService {
                 currentGood.setStore(Integer.parseInt(goodStore));
                 gr.save(currentGood);
                 dbInit.initCurrentFullness();
-                return "searchByName";
+                return "redirect:/searchByName";
             } else {
                 model.addAttribute("errorText", "Переполнение склада");
-                return "Err";
+                return "err";
             }
         }
         else
         {
             model.addAttribute("errorText","Такого склада нет");
-            return "Err";
+            return "err";
         }
 
     }

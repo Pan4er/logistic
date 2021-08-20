@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <div th:insert="reusableElems :: links"></div>
+</head>
+<body>
+<div class="card border-primary mb-3" style="width: 500px; margin: 0 auto; top: 30px">
+    <div class="card-header"><h5>Пользователь</h5></div>
+    <div class="card-body text-primary">
+        <form th:action="@{user}" th:method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Имя пользоватлея</label>
+                <input name="storeName" type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            </div>
+            <div class="mb-3">
+                <label for="fulness" class="form-label">Размер склада</label>
+                <input name="storeFullness" type="number" step="1" class="form-control" id="fulness">
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

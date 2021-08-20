@@ -24,6 +24,7 @@ public class DbInit {
             if (store.getGoods() != null)
             {
                 store.setCurrentf(this.countGoodsSize(store.getGoods()));
+
             }
             else
             {

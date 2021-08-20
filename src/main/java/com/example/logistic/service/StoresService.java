@@ -53,14 +53,14 @@ public class StoresService {
         if (newfullness < store.getCurrentf())
         {
             model.addAttribute("errorText","Невозможно изменить размер(переполнение)");
-            return "Err";
+            return "err";
         }
         else
         {
             store.setFullness(newfullness);
             storeRepo.save(store);
             this.renderStoresList(model);
-            return "stores";
+            return "redirect:stores";
         }
 
     }
@@ -73,21 +73,21 @@ public class StoresService {
         if (storeToDeleteId == storeToReplaceGoodsId)
         {
             model.addAttribute("errorText", "Склады не должны совпадать");
-            return "Err";
+            return "err";
         }
         else
         {
             if (storeToDelete.getCurrentf() > (storesToReplace.getFullness() - storesToReplace.getCurrentf()))
             {
                 model.addAttribute("errorText", "у выбранного склада будет переполнение");
-                return "Err";
+                return "err";
             }
             else
             {
                 this.replaceGoods(storeToDelete,storesToReplace);
                 this.renderStoresList(model);
                 dbInit.initCurrentFullness();
-                return "stores";
+                return "redirect:stores";
             }
         }
 
@@ -125,12 +125,12 @@ public class StoresService {
             storeRepo.save(newStore);
             dbInit.initCurrentFullness();
             model.addAttribute("success", "Склад добавлен");
-            return "succesPost";
+            return "redirect:stores";
         }
         else
         {
             model.addAttribute("errorText","Неправильно заполненны поля");
-            return "Err";
+            return "err";
         }
 
     }

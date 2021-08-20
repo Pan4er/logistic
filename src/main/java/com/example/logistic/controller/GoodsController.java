@@ -26,6 +26,7 @@ public class GoodsController {
 
     @GetMapping(value = "addGood")
     public String addGood(Model model) {
+        dbInit.initCurrentFullness();
         storesService.renderStoresList(model);
         return "addGood";
     }
@@ -42,9 +43,9 @@ public class GoodsController {
     }
 
     @GetMapping("goods")
-    public String getAllGoods(Model model)
+    public String getAllGoods(Model model,@Param("keyword") String keyword)
     {
-        return goodService.getAll(model);
+        return goodService.getGoods(model,keyword);
     }
 
 
@@ -64,7 +65,7 @@ public class GoodsController {
     public String editGoodByName(@RequestParam("goodId") String id, @RequestParam("goodName") String goodName)
     {
         goodService.editGoodName(goodName, id);
-        return "searchByName";
+        return "redirect:/searchByName";
 
     }
 
@@ -73,7 +74,7 @@ public class GoodsController {
     {
         goodService.editGoodPrice(goodPrice, id);
 
-        return "searchByName";
+        return "redirect:/searchByName";
 
     }
 
@@ -99,7 +100,7 @@ public class GoodsController {
     public String deleteCurrentGood(@RequestParam("goodId") int id)
     {
         goodService.deleteGood(id);
-        return "searchByName";
+        return "redirect:/searchByName";
     }
 
 
